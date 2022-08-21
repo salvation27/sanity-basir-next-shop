@@ -1,12 +1,12 @@
 import React from 'react'
 import { Typography } from "@mui/material";
 
-const TypographyEl = ({teg,classN}) => {
+const TypographyEl = ({ teg, classN, children }) => {
   return (
     <Typography component={teg} variant={classN}>
-      dfsdfsfdf
+      {children}
     </Typography>
   );
-}
+};
 
 export default TypographyEl

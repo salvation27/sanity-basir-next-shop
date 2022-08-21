@@ -24,3 +24,18 @@ a {
     background: black;
   }
 }
+
+.flex {
+  display: flex;
+}
+.navbar {
+  background:rgb(238, 236, 236);
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px;
+}
+.navbar_logo, .navbar_items {
+  font-size: 26px;
+  font-weight: 700;
+  color:blueviolet
+}
