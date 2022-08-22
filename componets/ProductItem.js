@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Image from 'next/image'
 import Link from 'next/link'
 import { urlFor } from '../utils/client';
-import CardMedia from "@mui/material/CardMedia";
+import { Rating } from '@mui/material';
 
 const ProductItem = ({item}) => {
   return (
@@ -34,7 +34,10 @@ const ProductItem = ({item}) => {
               {item.name}
             </Typography>
             <Typography variant="body2">{item.price} $</Typography>
-            <Typography variant="body2">{item.rating} ({item.numReviews} reviews)</Typography>
+            <div className="rating">
+              <Rating value={item.rating} readOnly></Rating>
+              <div>({item.numReviews} reviews)</div>
+            </div>
           </CardContent>
         </Link>
         <CardActions>

@@ -44,7 +44,47 @@ a {
   justify-content: space-between;
 }
 .card_image {
-  height: 200px;
+  height: 250px;
   width: 100%;
   object-fit: cover;
+}
+.detail_item {
+  display: flex;
+}
+.card_image_detail {
+  /* width: 250px; */
+   height: 550px;
+  width: 100%;
+  object-fit: cover;
+}
+.detail_item_text {
+  margin-left: 30px;
+}
+.detail_item {
+  margin-top: 30px;
+}
+.detail_item_text_num {
+  border:1px solid #ccc;
+  padding: 20px;
+  margin-top: 30px;
+}
+.green_text {
+  color: rgb(5, 198, 37);
+}
+.red_text {
+  color: red;
+}
+.rating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dark_bg {
+  background: #000;
+}
+.dark_bg .MuiTypography-span {
+  color: aliceblue;
+}
+.dark_bg .footer {
+  color: aliceblue;
 }

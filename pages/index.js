@@ -15,7 +15,6 @@ export default function Home() {
   const fetchData = async () => {
     try {
       const productsData = await client.fetch(query);
-      console.log("productsData", productsData);
       setState({
         products: productsData,
         loading: false,

@@ -37,12 +37,12 @@ export default {
       name: "released",
       type: "boolean",
     },
-    {
-      name: "comment",
-      title: "Comment",
-      type: "array",
-      of: [{ type: "comments" }],
-    },
+    // {
+    //   name: "comment",
+    //   title: "Comment",
+    //   type: "array",
+    //   of: [{ type: "comments" }],
+    // },
     // {
     //   name: "rating",
     //   title: "Rating",
