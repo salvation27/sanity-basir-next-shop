@@ -1,11 +1,51 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { urlFor } from "../utils/client";
 import TypographyEl from "./elem/TypographyEl";
 import { Button, Rating } from "@mui/material";
+import { Store } from "../utils/store";
+import axios from "axios";
+import { useSnackbar } from "notistack";
 
 const DetailPage = ({ product }) => {
-  console.log("DetailPage", product);
+  const {
+    state: { cart },
+    dispatch,
+  } = useContext(Store);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const addToCartHandler = async () => {
+    const existItem = cart.cartItems.find((x) => x._key === product._id);
+    console.log("existItem", existItem);
+      if (existItem) {
+        enqueueSnackbar("Sorry. Product already in cart", { variant: "error" });
+        return;
+      }
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if (data.countInStok < quantity) {
+      enqueueSnackbar("Sorry. Product is out of stock", { variant: "error" });
+      return;
+    }
+    dispatch({
+      type: "CART_ADD_ITEM",
+      payload: {
+        _key: product._id,
+        name: product.name,
+        countInStok: product.countInStok,
+        slug: product.slug.current,
+        price: product.price,
+        image: urlFor(product.image),
+        quantity,
+      },
+    });
+    enqueueSnackbar(`${product.name} added to the cart`, {
+      variant: "success",
+    });
+    // router.push("/cart");
+  };
+  console.log("product", product);
+
   return (
     <div className="detail_wrap">
       <TypographyEl teg="h2" classN="span">
@@ -45,7 +85,12 @@ const DetailPage = ({ product }) => {
               )}
             </TypographyEl>
             <br />
-            <Button size="large" fullWidth variant="contained">
+            <Button
+              size="large"
+              fullWidth
+              variant="contained"
+              onClick={addToCartHandler}
+            >
               Add Cart
             </Button>
           </div>

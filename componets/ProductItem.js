@@ -4,12 +4,14 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Image from 'next/image'
 import Link from 'next/link'
 import { urlFor } from '../utils/client';
 import { Rating } from '@mui/material';
 
 const ProductItem = ({item}) => {
+
+ 
+
   return (
     <>
       <Card sx={{ minWidth: 275 }}>
@@ -41,7 +43,9 @@ const ProductItem = ({item}) => {
           </CardContent>
         </Link>
         <CardActions>
-          <Button size="small" variant="contained">
+          <Button size="small" variant="contained"
+          // onClick={addTooCartHandel}
+          >
             Add Cart
           </Button>
         </CardActions>

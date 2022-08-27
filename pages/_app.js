@@ -4,6 +4,7 @@ import createCache from "@emotion/cache";
 const clientSideEmotionCache = createCache({ key: "css" });
 // импорт контекста
 import { StoreProvider } from "../utils/store";
+import { SnackbarProvider } from "notistack";
 
 function MyApp({
   Component,
@@ -12,9 +13,11 @@ function MyApp({
 }) {
   return (
     <CacheProvider value={emotionCache}>
-      <StoreProvider>
-        <Component {...pageProps} />
-      </StoreProvider>
+      <SnackbarProvider anchorOrigin={{vertical:'top',horizontal:'center'}}>
+        <StoreProvider>
+          <Component {...pageProps} />
+        </StoreProvider>
+      </SnackbarProvider>
     </CacheProvider>
   );
 }

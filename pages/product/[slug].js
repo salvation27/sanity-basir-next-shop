@@ -35,6 +35,10 @@ const Detail = ({ slug }) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+
+
+
   return (
     <Layout title={product?.title} description="описание Home">
       {

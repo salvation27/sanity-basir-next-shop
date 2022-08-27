@@ -80,11 +80,48 @@ a {
   justify-content: space-between;
 }
 .dark_bg {
-  background: #000;
+  background: rgb(84, 59, 89);
 }
-.dark_bg .MuiTypography-span {
+.dark_bg .MuiTypography-root {
   color: aliceblue;
 }
 .dark_bg .footer {
   color: aliceblue;
+}
+.dark_bg .MuiCard-root .MuiTypography-root {
+  color: black;
+}
+.cart_item {
+  position: relative;
+  top: -10px;
+  font-size: 20px;
+  background: rgb(53, 11, 167);
+  width: 25px !important;
+  height: 25px !important;
+  color: #fff;
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: 20px;
+}
+.cart_item_wrap {
+  border:1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background:#fff;
+  align-items: center;
+}
+.cart_item_wrap_foto img {
+  width: 50px;
+  height: 100px;
+  object-fit: cover;
+}
+.cart_item_wrap_text {
+  font-weight: 700;
+  font-size: 20px;
+}
+.remove_btn {
+  color: red;
+  cursor: pointer;
 }
