@@ -30,6 +30,7 @@ export default function Home() {
   useEffect(() => {
     fetchData();
   }, []);
+  console.log("products", products);
   return (
     <Layout title="главная" description="описание Home">
       <TypographyEl teg="h1" classN="span">

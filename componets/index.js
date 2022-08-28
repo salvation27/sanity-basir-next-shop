@@ -4,3 +4,4 @@ export { default as Navbar } from "./Navbar";
 export { default as Footer } from "./Footer";
 export { default as ProductItem } from "./ProductItem";
 export { default as DetailPage } from "./DetailPage";
+export { default as EmptyCart } from "./EmptyCart";

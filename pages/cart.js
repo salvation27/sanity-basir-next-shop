@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Layout, TypographyEl } from "../componets";
+import { EmptyCart, Layout, TypographyEl } from "../componets";
 import { Store } from '../utils/store';
 import axios from "axios";
 import {
@@ -13,9 +13,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
+import Link from 'next/link';
 import { urlFor } from '../utils/client';
-
-const cart = () => {
+const Cart = () => {
         const {
           state: {
             cart: { cartItems },
@@ -26,7 +26,6 @@ const cart = () => {
   const { enqueueSnackbar } = useSnackbar();
 
     const updateCartHandler = async (item, quantity) => {
-      console.log("test", item.image);
       const { data } = await axios.get(`/api/products/${item._id}`);
       if (data.countInStock < quantity) {
         enqueueSnackbar("Sorry. Product is out of stock", { variant: "error" });
@@ -51,76 +50,89 @@ const cart = () => {
 
       const removeItemHandler = (item) => {
         dispatch({ type: "CART_REMOVE_ITEM", payload: item });
+        enqueueSnackbar(`${item.name} remove in the cart`, {
+          variant: "success",
+        });
       };
      
       useEffect(() => {
         setCartData(cartItems);
       }, [dispatch, cartItems]);
+
+// здесь в картинке не надо прописывать  import urlFor потому что бул передан  через кнопку
+
+console.log("cartData", cartData);
   return (
-    <Layout title="Shoping cart" description="описание Home">
+    <Layout title="Shoping cart" description="описание Cart">
       <TypographyEl teg="h1" classN="span">
-        Корзина
+        {cartData.length === 0 ? "Корзина пуста" : "Корзина"}
       </TypographyEl>
-      <div className="cart_wrap">
-        <div className="cart_prod">
-          {cartData.map((x) => (
-            <div key={x._key} className="cart_item_wrap">
-              <div className="cart_item_wrap_foto">
-                {/* <img className="card_image" src={urlFor(x.image)} alt="" /> */}
-              </div>
-              <div className="cart_item_wrap_text">{x.name}</div>
-              <div className="cart_item_wrap_text">
-                <Select
-                  value={x.quantity}
-                  onChange={(e) => updateCartHandler(x, e.target.value)}
-                >
-                  {[...Array(x.countInStok).keys()].map((y) => (
-                    <MenuItem key={y + 1} value={y + 1}>
-                      {y + 1}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </div>
-              <div className="cart_item_wrap_text">{x.price}$</div>
-              <div
-                className="cart_item_wrap_text remove_btn"
-                onClick={() => removeItemHandler(x)}
-              >
-                X
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="cart_check">
-          <Grid item md={3} xs={12}>
-            <Card>
-              <List>
-                <ListItem>
-                  <Typography variant="h2">
-                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{" "}
-                    items) : ${" "}
-                    {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
-                  </Typography>
-                </ListItem>
-                <ListItem>
-                  <Button
-                    onClick={() => {
-                      router.push("/shipping");
-                    }}
-                    fullWidth
-                    color="primary"
-                    variant="contained"
+      {cartData.length === 0 ? (
+        <EmptyCart />
+      ) : (
+        <div className="cart_wrap">
+          <div className="cart_prod">
+            {cartData.map((x) => (
+              <div key={x._key} className="cart_item_wrap">
+                <div className="cart_item_wrap_foto">
+                  <Link href={`/product/${x.slug}`}>
+                    <img className="card_image" src={urlFor(x.image)} alt="" />
+                  </Link>
+                </div>
+                <div className="cart_item_wrap_text">{x.name}</div>
+                <div className="cart_item_wrap_text">
+                  <Select
+                    value={x.quantity}
+                    onChange={(e) => updateCartHandler(x, e.target.value)}
                   >
-                    Checkout
-                  </Button>
-                </ListItem>
-              </List>
-            </Card>
-          </Grid>
+                    {[...Array(x.countInStok).keys()].map((y) => (
+                      <MenuItem key={y + 1} value={y + 1}>
+                        {y + 1}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+                <div className="cart_item_wrap_text">{x.price}$</div>
+                <div
+                  className="cart_item_wrap_text remove_btn"
+                  onClick={() => removeItemHandler(x)}
+                >
+                  X
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="cart_check">
+            <Grid item md={3} xs={12}>
+              <Card>
+                <List>
+                  <ListItem>
+                    <Typography variant="h2">
+                      Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{" "}
+                      items) : ${" "}
+                      {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
+                    </Typography>
+                  </ListItem>
+                  <ListItem>
+                    <Button
+                      onClick={() => {
+                        router.push("/shipping");
+                      }}
+                      fullWidth
+                      color="primary"
+                      variant="contained"
+                    >
+                      Checkout
+                    </Button>
+                  </ListItem>
+                </List>
+              </Card>
+            </Grid>
+          </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
 }
 
-export default cart
+export default Cart

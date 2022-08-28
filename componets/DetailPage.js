@@ -35,7 +35,7 @@ const DetailPage = ({ product }) => {
         countInStok: product.countInStok,
         slug: product.slug.current,
         price: product.price,
-        image: urlFor(product.image),
+        image: product.image,
         quantity,
       },
     });
@@ -44,7 +44,6 @@ const DetailPage = ({ product }) => {
     });
     // router.push("/cart");
   };
-  console.log("product", product);
 
   return (
     <div className="detail_wrap">

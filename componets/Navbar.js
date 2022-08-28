@@ -27,6 +27,7 @@ const Navbar = ({ darkMode, darkModeChangeHandler }) => {
         </button>
         <div className="cart_item">{cartNum}</div>
         <Link href="/cart">Cart</Link>
+        <Link href="/login">Login</Link>
       </div>
     </div>
   );
