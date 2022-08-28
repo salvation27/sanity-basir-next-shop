@@ -27,6 +27,7 @@ https://www.youtube.com/watch?v=FcRWgWQale4&t=6461s
 6ю2)создаем ф. для кнопки
 6.3) делаем в апи в next
 7)useForm
+8)Регистрация через санити 2ю37
 
 
 

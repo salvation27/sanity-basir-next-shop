@@ -9,6 +9,7 @@ const Navbar = ({ darkMode, darkModeChangeHandler }) => {
   const {
     state: {
       cart: { cartItems },
+      userInfo
     },
   } = useContext(Store);
   useEffect(() => {
@@ -20,14 +21,20 @@ const Navbar = ({ darkMode, darkModeChangeHandler }) => {
       <div className="navbar_logo">
         <Link href="/">Sanity+Next</Link>
       </div>
+
       <div className="navbar_items flex">
+        {userInfo ? <div>{userInfo.name}</div> : ""}
         {/* <Switch  checked={darkMode} onChange={darkModeChangeHandler}></Switch> */}
         <button onClick={darkModeChangeHandler}>
           {darkMode ? "Darck" : "White"}
         </button>
         <div className="cart_item">{cartNum}</div>
         <Link href="/cart">Cart</Link>
-        <Link href="/login">Login</Link>
+        {userInfo ? (
+          <Link href="/profile">Profile</Link>
+        ) : (
+          <Link href="/login">Login</Link>
+        )}
       </div>
     </div>
   );

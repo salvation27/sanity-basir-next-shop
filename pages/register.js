@@ -1,23 +1,61 @@
 import { Button, TextField, Typography } from "@mui/material";
 import Link from "next/link";
-import React from "react";
+import React, { useContext,useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Layout } from "../componets";
+import { useSnackbar } from "notistack";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { Store } from "../utils/store";
+import { getError } from "../utils/error";
+import jsCookie from "js-cookie";
 
 const Register = () => {
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
+  const router = useRouter();
+  const { redirect } = router.query;
+const { enqueueSnackbar } = useSnackbar();
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const submitHendler = async ({name, email, password, confirmPassword}) => {};
+  useEffect(() => {
+    if (userInfo) {
+      router.push(redirect || "/");
+    }
+  }, [router, userInfo, redirect]);
+
+  const submitHandler = async ({ name, email, password, confirmPassword }) => {
+    if (password !== confirmPassword) {
+      enqueueSnackbar("Passwords don't match", { variant: "error" });
+      return;
+    }
+    try {
+      console.log("reg-40");
+      const { data } = await axios.post("/api/users/register", {
+        name,
+        email,
+        password,
+      });
+      
+      dispatch({ type: "USER_LOGIN", payload: data });
+      jsCookie.set("userInfo", JSON.stringify(data));
+      console.log('fffff',data);
+      enqueueSnackbar(`${data.name} register success`, { variant: "success" });
+      router.push(redirect || "/");
+    } catch (err) {
+      enqueueSnackbar(getError(err), { variant: "error" });
+    }
+  };
   return (
     <Layout title="Register" description="описание Register">
       <Typography variant="h3" component="h3" style={{ textAlign: "center" }}>
         Register
       </Typography>
       <form
-        onSubmit={handleSubmit(submitHendler)}
+        onSubmit={handleSubmit(submitHandler)}
         className="form_wrap"
         style={{ width: "600px", margin: "0 auto" }}
       >

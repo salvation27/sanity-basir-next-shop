@@ -35,9 +35,12 @@ a {
   padding: 10px 10px;
 }
 .navbar_logo, .navbar_items {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   color:blueviolet
+}
+.navbar_items {
+  gap: 10px;
 }
 .product_wrap {
   display: flex;
