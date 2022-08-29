@@ -8,10 +8,10 @@ import {client} from "../../../utils/client";
 const handler = nc();
 
 handler.post(async (req, res) => {
-  const projectId = "76m17hv5";
+  const projectId = "eq2s5m51";
   const dataset = "production";
   const tokenWithWriteAccess =
-    "skaP21bjKNsJHGaTTD8MsR7fgZOxKqi8kF4nHogsakfL9gYV7Y66HFDdJlUR9bws8TnNw6lfs9iJK0KeIx5IP98StcsAbMoBY9PJax4l8qbmwBrXw9mMRZzxhvsm4oaqYtxGFhNOlLubm4RuI1mWhIgO5bOYEC8YvFqZiM7mHzxqcr0dwiii";
+    "skQvWDZtDdFyFnR147QTtjJPhYULONpv5sEcospjwk2T4SFnhYHezZ9Wz9k0brclpT3C4MVyaJMRtkLwI3ysx14KJgeHNrnzOm7IPUJ5UrQ7AkGSbfrnzW6HPx7mJhL0lVSC4e1Cx9goyQvi5bmgGPZ6NTxFm6tQEeuDgnHyMPDvdj9Ak8y5";
   const createMutations = [
     {
       create: {
@@ -23,14 +23,12 @@ handler.post(async (req, res) => {
       },
     },
   ];
-console.log("test2 вижу", createMutations);
   const existUser = await client.fetch(
     `*[_type == "user" && email == $email][0]`,
     {
       email: req.body.email,
     }
   );
-  console.log("вижу!",existUser);
   if (existUser) {
     return res.status(401).send({ message: "Email aleardy exists" });
   }
@@ -51,10 +49,8 @@ console.log("test2 вижу", createMutations);
     email: req.body.email,
     isAdmin: false,
   };
-  // console.log('+')
   const token = signToken(user);
   res.send({ ...user, token });
-    // console.log("+");
 });
 
 export default handler;

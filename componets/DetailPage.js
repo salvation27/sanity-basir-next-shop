@@ -8,6 +8,7 @@ import axios from "axios";
 import { useSnackbar } from "notistack";
 
 const DetailPage = ({ product }) => {
+  
   const {
     state: { cart },
     dispatch,
@@ -44,7 +45,7 @@ const DetailPage = ({ product }) => {
     });
     // router.push("/cart");
   };
-
+console.log("product444", product);
   return (
     <div className="detail_wrap">
       <TypographyEl teg="h2" classN="span">
@@ -70,6 +71,7 @@ const DetailPage = ({ product }) => {
               Brand: {product.brend}
             </TypographyEl>
             <Rating value={product.rating} readOnly></Rating>
+            {/* <div className="fff">{text[0].children[0].marks.text}</div> */}
           </div>
           <div className="detail_item_text_num">
             <TypographyEl teg="h4" classN="h5">
@@ -95,6 +97,7 @@ const DetailPage = ({ product }) => {
           </div>
         </div>
       </div>
+      <div className="des">{product.description}</div>
     </div>
   );
 };

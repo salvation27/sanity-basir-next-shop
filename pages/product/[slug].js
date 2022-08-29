@@ -1,17 +1,33 @@
 import { Alert, CircularProgress } from "@mui/material";
 import React, { useEffect,useState } from "react";
-import { DetailPage, Layout, TypographyEl } from "../../componets";
+import { DetailPage, Layout} from "../../componets";
 import { client } from "../../utils/client";
 
 const Detail = ({ slug }) => {
+  // console.log("Detail1", slug);
   const [state, setState] = useState({
     product: null,
     loading: true,
     error: "",
   });
+  // console.log("Detail2", state);
   const { product, loading, error } = state;
 
-  const query = `*[_type == "product" && slug.current == $slug][0]`;
+  const query = `*[_type == "product" && slug.current == $slug][0] {
+category,
+_id,
+brend,
+countInStok,
+image{asset->{url}},
+name,
+numReviews,
+price,
+rating,
+slug,
+stat,
+text,
+description,
+      }`;
 
   const fetchData = async () => {
     try {

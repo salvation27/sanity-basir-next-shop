@@ -48,7 +48,7 @@ const ProductItem = ({item}) => {
     });
     // router.push("/cart");
   };
-
+// console.log("item", item);
   return (
     <>
       <Card sx={{ minWidth: 275 }}>

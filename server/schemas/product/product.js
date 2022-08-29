@@ -4,6 +4,7 @@ export default {
   title: "Product",
   icon: BsFillFilePostFill,
   type: "document",
+  fieldsets: [{ name: "social", title: "Social media handles" }],
   fields: [
     {
       name: "name",
@@ -86,6 +87,15 @@ export default {
       title: "Category",
       type: "string",
     },
+    // {
+    //   name: "category",
+    //   title: "Category",
+    //   type: "reference",
+    //   to: {
+    //     type: "category",
+    //     of: "array",
+    //   },
+    // },
     {
       name: "rating",
       title: "Rating",
@@ -100,6 +110,29 @@ export default {
       name: "countInStok",
       title: "Count In Stok",
       type: "number",
+    },
+    {
+      name: "description",
+      title: "Description",
+      type: "text",
+    },
+    {
+      title: "Twitter",
+      name: "twitter",
+      type: "string",
+      fieldset: "social",
+    },
+    {
+      title: "Instagram",
+      name: "instagram",
+      type: "string",
+      fieldset: "social",
+    },
+    {
+      title: "Facebook",
+      name: "facebook",
+      type: "string",
+      fieldset: "social",
     },
   ],
 };

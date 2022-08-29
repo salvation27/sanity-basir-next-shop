@@ -1,10 +1,10 @@
 {
   "root": true,
   "project": {
-    "name": "sanity"
+    "name": "basir-shop"
   },
   "api": {
-    "projectId": "76m17hv5",
+    "projectId": "eq2s5m51",
     "dataset": "production"
   },
   "plugins": [

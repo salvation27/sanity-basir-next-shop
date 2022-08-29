@@ -33,7 +33,6 @@ const { enqueueSnackbar } = useSnackbar();
       return;
     }
     try {
-      console.log("reg-40");
       const { data } = await axios.post("/api/users/register", {
         name,
         email,
@@ -42,7 +41,6 @@ const { enqueueSnackbar } = useSnackbar();
       
       dispatch({ type: "USER_LOGIN", payload: data });
       jsCookie.set("userInfo", JSON.stringify(data));
-      console.log('fffff',data);
       enqueueSnackbar(`${data.name} register success`, { variant: "success" });
       router.push(redirect || "/");
     } catch (err) {

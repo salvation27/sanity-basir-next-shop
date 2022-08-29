@@ -21,9 +21,11 @@ const Navbar = ({ darkMode, darkModeChangeHandler }) => {
       <div className="navbar_logo">
         <Link href="/">Sanity+Next</Link>
       </div>
-
+      <div className="search">
+        <Link href="/search">Search</Link>
+      </div>
+      {userInfo ? <div>User: <strong>{userInfo.name}</strong></div> : ""}
       <div className="navbar_items flex">
-        {userInfo ? <div>{userInfo.name}</div> : ""}
         {/* <Switch  checked={darkMode} onChange={darkModeChangeHandler}></Switch> */}
         <button onClick={darkModeChangeHandler}>
           {darkMode ? "Darck" : "White"}
