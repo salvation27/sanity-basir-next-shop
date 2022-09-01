@@ -65,7 +65,7 @@ console.log("product444", product);
               {product.name}
             </TypographyEl>
             <TypographyEl teg="h4" classN="h6">
-              Category: {product.category}
+              Category: {product.category.name}
             </TypographyEl>
             <TypographyEl teg="h4" classN="h6">
               Brand: {product.brend}

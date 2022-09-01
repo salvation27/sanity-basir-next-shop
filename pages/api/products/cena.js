@@ -5,7 +5,8 @@ const handler = nc();
 
 handler.get(async (req, res) => {
   // const categories = ["Shirts", "Pants"];
-  const categ = await client.fetch(`*[_type == "category"]{name}`);
-  res.send(categ);
+  const cena = await client.fetch(`*[_type == "prices"]{name,value}`);
+//   console.log('123456',cena);
+  res.send(cena);
 });
 export default handler;

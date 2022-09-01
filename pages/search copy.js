@@ -10,31 +10,31 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import Slider from "@mui/material/Slider";
 import { Box } from "@mui/system";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useContext, useEffect, useState } from "react";
 import { Layout, ProductItem } from "../componets";
-import { client } from "../utils/client";
+import {client} from "../utils/client";
 import { Store } from "../utils/store";
 import classes from "../utils/classes";
 
-// const prices = [
-//   {
-//     name: "$1 to $50",
-//     value: "1-50",
-//   },
-//   {
-//     name: "$51 to $200",
-//     value: "51-200",
-//   },
-//   {
-//     name: "$201 to $1000",
-//     value: "201-1000",
-//   },
-// ];
+
+const prices = [
+  {
+    name: "$1 to $50",
+    value: "1-50",
+  },
+  {
+    name: "$51 to $200",
+    value: "51-200",
+  },
+  {
+    name: "$201 to $1000",
+    value: "201-1000",
+  },
+];
 
 const ratings = [1, 2, 3, 4, 5];
 
@@ -56,15 +56,6 @@ export default function SearchScreen() {
 
   const { loading, products, error } = state;
   const [categories, setCategories] = useState([]);
-  const [prices, setPrices] = useState([]);
-
-  const [selectedPrice, setSelectedPrice] = useState([0, 300]);
-  const [filterData, setFilterData] = useState([]);
-
-  const handleChangePrice = (event, value) => {
-    setSelectedPrice(value);
-  };
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -76,23 +67,13 @@ export default function SearchScreen() {
     };
     fetchCategories();
 
-    const fetchPrices = async () => {
-      try {
-        const { data } = await axios.get(`/api/products/cena`);
-        setPrices(data);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-    fetchPrices();
-
     const fetchData = async () => {
       try {
-        let gQuery = '*[_type == "product" ';
+        let gQuery = '*[_type == "product"';
+        console.log("category-fetchData", category);
         if (category !== "all") {
-          gQuery += ` && category._ref in *[_type=="category" && name=="${category}"]._id  `;
+          gQuery += ` && category match "${category}" `;
         }
-
         if (query !== "all") {
           gQuery += ` && name match "${query}" `;
         }
@@ -111,33 +92,11 @@ export default function SearchScreen() {
           if (sort === "toprated") order = "| order(rating desc)";
         }
 
-        gQuery += ` ] ${order}`;
-
-        // console.log("gQuery", gQuery);
-
+        gQuery += `] ${order}`;
         setState({ loading: true });
 
-        const products = await client.fetch(gQuery)
-
-        // const minPrice = selectedPrice[0];
-        // const maxPrice = selectedPrice[1];
-
-        // products = products.filter(
-        //   (item) => item.price >= minPrice && item.price <= maxPrice
-        // );
-
+        const products = await client.fetch(gQuery);
         setState({ products, loading: false });
-      const numArr = products.map((x) => x.price);
-      console.log("numArr", numArr);
-      const maxRange = getMaxOfArray(numArr);
-      const minRange = getMinOfArray(numArr);
-
-      console.log("maxRange", maxRange);
-      console.log("minRange", minRange);
-
-      setSelectedPrice([minRange-5, maxRange+5]);
-
-        setFilterData(products);
       } catch (err) {
         setState({ error: err.message, loading: false });
       }
@@ -146,7 +105,9 @@ export default function SearchScreen() {
   }, [category, price, query, rating, sort]);
 
   const filterSearch = ({ category, sort, searchQuery, price, rating }) => {
+    console.log("filterSearch", category);
     const path = router.pathname;
+    // console.log("filterSearch", path);
     const { query } = router;
     // console.log("filterSearch", query);
     if (searchQuery) query.searchQuery = searchQuery;
@@ -173,49 +134,10 @@ export default function SearchScreen() {
     filterSearch({ rating: e.target.value });
   };
 
-  // обнуление категории
-  const categoryHandlerRemove = () => {
-    filterSearch({ category: "all" });
-  };
-
-  const priceHandlerRemove = () => {
-    filterSearch({ price: "all" });
-  };
 
 
-  useEffect(() => {
-    filterRange();
-  }, [selectedPrice]);
-
-function getMaxOfArray(numArray) {
-  return Math.max.apply(null, numArray);
-}
-
-
-function getMinOfArray(numArray) {
-  return Math.min.apply(null, numArray);
-}
-
-
-
-
- 
-  const filterRange = () => {
-    const list = products;
-
-    const minPrice = selectedPrice[0];
-    const maxPrice = selectedPrice[1];
-    const res = list.filter(
-      (item) => item.price >= minPrice && item.price <= maxPrice
-    );
-    setFilterData(res);
-  };
-
-  console.log("filter", filterData);
-  console.log("selectedPrice", selectedPrice);
-
-  console.log("products", products);
-  //  console.log("selectedPrice", selectedPrice);
+  console.log("categories end", categories);
+  console.log("category end", category);
 
   return (
     <Layout title="search">
@@ -229,14 +151,14 @@ function getMinOfArray(numArray) {
                   <MenuItem value="all">All</MenuItem>
                   {categories &&
                     categories.map((category) => (
-                      <MenuItem key={category.name} value={category.name}>
-                        {category.name}
+                      <MenuItem key={category} value={category}>
+                        {category}
                       </MenuItem>
                     ))}
                 </Select>
               </Box>
             </ListItem>
-            {/* <ListItem>
+            <ListItem>
               <Box sx={classes.fullWidth}>
                 <Typography>Prices</Typography>
                 <Select value={price} onChange={priceHandler} fullWidth>
@@ -248,7 +170,7 @@ function getMinOfArray(numArray) {
                   ))}
                 </Select>
               </Box>
-            </ListItem> */}
+            </ListItem>
             <ListItem>
               <Box sx={classes.fullWidth}>
                 <Typography>Ratings</Typography>
@@ -263,30 +185,6 @@ function getMinOfArray(numArray) {
                 </Select>
               </Box>
             </ListItem>
-            <ListItem>
-              <Slider
-                getAriaLabel={() => "Temperature range"}
-                value={selectedPrice}
-                onChange={handleChangePrice}
-                min={1}
-                max={250}
-                // valueLabelDisplay="true"
-                valueLabelDisplay="on"
-              />
-            </ListItem>
-            {category !== "all" && category !== "" && " category : " + category}
-            {category !== "all" && category !== "" ? (
-              <Button onClick={categoryHandlerRemove} color="error">
-                X
-              </Button>
-            ) : null}
-            <br />
-            {price !== "all" && " Price " + price}
-            {price !== "all" ? (
-              <Button color="error" onClick={priceHandlerRemove}>
-                X
-              </Button>
-            ) : null}
           </List>
         </Grid>
         <Grid item md={9}>
@@ -294,19 +192,13 @@ function getMinOfArray(numArray) {
             <Grid item>
               {products && products.length !== 0 ? products.length : "No"}{" "}
               Results
-              {category !== "all" &&
-                category !== "" &&
-                " category : " + category}
               {query !== "all" && query !== "" && " : " + query}
               {price !== "all" && " : Price " + price}
               {rating !== "all" && " : Rating " + rating + " & up"}
-              {(category !== "all" && category !== "") ||
-              (query !== "all" && query !== "") ||
+              {(query !== "all" && query !== "") ||
               rating !== "all" ||
               price !== "all" ? (
-                <Button onClick={() => router.push("/search")}>
-                  All filter close X
-                </Button>
+                <Button onClick={() => router.push("/search")}>X</Button>
               ) : null}
             </Grid>
 
@@ -330,7 +222,7 @@ function getMinOfArray(numArray) {
               <Alert>{error}</Alert>
             ) : (
               <Grid container spacing={3}>
-                {filterData.map((product) => (
+                {products.map((product) => (
                   <Grid item md={4} key={product.name}>
                     <ProductItem item={product} />
                   </Grid>

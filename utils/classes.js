@@ -29,7 +29,7 @@ const classes = {
     fontSize: "1.5rem",
   },
   navbarButton: {
-    color: "#ffffff",
+    color: "#000",
     textTransform: "initial",
   },
   fullWidth: {

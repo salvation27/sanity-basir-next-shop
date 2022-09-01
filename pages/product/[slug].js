@@ -14,19 +14,9 @@ const Detail = ({ slug }) => {
   const { product, loading, error } = state;
 
   const query = `*[_type == "product" && slug.current == $slug][0] {
-category,
-_id,
-brend,
-countInStok,
+...,
 image{asset->{url}},
-name,
-numReviews,
-price,
-rating,
-slug,
-stat,
-text,
-description,
+category->{name}
       }`;
 
   const fetchData = async () => {

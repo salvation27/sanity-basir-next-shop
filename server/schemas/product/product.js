@@ -82,20 +82,36 @@ export default {
       title: "Brend",
       type: "string",
     },
-    {
-      name: "category",
-      title: "Category",
-      type: "string",
-    },
     // {
     //   name: "category",
     //   title: "Category",
-    //   type: "reference",
-    //   to: {
-    //     type: "category",
-    //     of: "array",
+    //   type: "string",
+    //   options: {
+    //     list: [
+    //       { title: "Pants", value: "Pants" },
+    //       { title: "Shirts", value: "Shirts" },
+    //     ],
+    //     layout: "radio",
     //   },
     // },
+    {
+      name: "category",
+      title: "Category",
+      type: "reference",
+      to: {
+        type: "category",
+        of: "array",
+      },
+    },
+    {
+      name: "prices",
+      title: "Prices",
+      type: "reference",
+      to: {
+        type: "prices",
+        of: "array",
+      },
+    },
     {
       name: "rating",
       title: "Rating",
